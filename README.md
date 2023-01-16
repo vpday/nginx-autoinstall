@@ -4,18 +4,18 @@ Compile and install NGINX from source with optional features, modules and patche
 
 ## Compatibility
 
-- Debian 9 and later
-- Ubuntu 16.04 and later
+- Debian 10 and later
+- Ubuntu 18.04 and later
 
-The script might work on ARM-based architectures, but it's only being regularly tested against x86_64 with [GitHub Actions](https://github.com/angristan/nginx-autoinstall/actions/workflows/build.yml).
+The script might work on ARM-based architectures, but it's only being regularly tested against x86_64 with [GitHub Actions](https://github.com/MaximeMichaud/nginx-autoinstall/actions/workflows/build.yml).
 
 ## Features
 
 - Latest mainline or stable version, from source
 - Optional modules and patches
-- [Custom nginx.conf](https://github.com/angristan/nginx-autoinstall/blob/master/conf/nginx.conf) (default does not work)
-- [Init script for systemd](https://github.com/angristan/nginx-autoinstall/blob/master/conf/nginx.service) (not provided by default)
-- [Logrotate conf](https://github.com/angristan/nginx-autoinstall/blob/master/conf/nginx-logrotate) (not provided by default)
+- [Custom nginx.conf](https://github.com/MaximeMichaud/nginx-autoinstall/blob/master/conf/nginx.conf) (default does not work)
+- [Init script for systemd](https://github.com/MaximeMichaud/nginx-autoinstall/blob/master/conf/nginx.service) (not provided by default)
+- [Logrotate conf](https://github.com/MaximeMichaud/nginx-autoinstall/blob/master/conf/nginx-logrotate) (not provided by default)
 - Block Nginx installation from APT using pinning, to prevent conflicts
 
 ### Optional modules/features
@@ -69,11 +69,11 @@ You will be able to:
 
 Just follow the question!
 
-You can check [configuration examples](https://github.com/angristan/nginx-autoinstall/tree/master/conf) for the custom modules.
+You can check [configuration examples](https://github.com/MaximeMichaud/nginx-autoinstall/tree/master/conf) for the custom modules.
 
 ## Headless use
 
-You can run the script without the prompts with the option `HEADLESS` set to `y`. This allows for automated install and scripting. This is what is used to test the script with [GitHub Actions](https://github.com/angristan/nginx-autoinstall/actions/workflows/build.yml).
+You can run the script without the prompts with the option `HEADLESS` set to `y`. This allows for automated install and scripting. This is what is used to test the script with [GitHub Actions](https://github.com/MaximeMichaud/nginx-autoinstall/actions/workflows/build.yml).
 
 ```sh
 HEADLESS=y ./nginx-autoinstall.sh
