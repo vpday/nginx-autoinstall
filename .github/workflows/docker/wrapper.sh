@@ -3,7 +3,7 @@
 export HEADLESS=y
 
 if [[ $INSTALL_TYPE == "FULL" ]]; then
-    export PAGESPEED=y
+    #export PAGESPEED=y
     export BROTLI=y
     export HEADERMOD=y
     export GEOIP=n # requires license key
@@ -26,3 +26,4 @@ if [[ $INSTALL_TYPE == "FULL" ]]; then
 fi
 
 bash -x ../../nginx-autoinstall.sh
+
