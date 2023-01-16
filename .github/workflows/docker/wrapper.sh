@@ -19,7 +19,7 @@ if [[ $INSTALL_TYPE == "FULL" ]]; then
     export MODSEC=y
     export HPACK=y
     export REDIS2=y
-    export HTTPREDIS=y
+    #export HTTPREDIS=y
     export SRCACHE=y
     export SETMISC=y
     export NGXECHO=y
