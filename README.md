@@ -55,7 +55,7 @@ The script might work on ARM-based architectures, but it's only being regularly 
 Just download and execute the script :
 
 ```sh
-wget https://raw.githubusercontent.com/angristan/nginx-autoinstall/master/nginx-autoinstall.sh
+wget https://raw.githubusercontent.com/maximemichaud/nginx-autoinstall/master/nginx-autoinstall.sh
 chmod +x nginx-autoinstall.sh
 ./nginx-autoinstall.sh
 ```
