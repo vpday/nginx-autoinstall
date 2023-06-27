@@ -3,7 +3,7 @@
 export HEADLESS=y
 
 if [[ $INSTALL_TYPE == "FULL" ]]; then
-    export PAGESPEED=n # Support Retired
+    export PAGESPEED=n # Module Support Retired / Project Abandoned
     export BROTLI=y
     export HEADERMOD=y
     export GEOIP=n # requires license key
@@ -17,7 +17,7 @@ if [[ $INSTALL_TYPE == "FULL" ]]; then
     export TESTCOOKIE=y
     export HTTP3=n Not Working Properly With Recent & now unnecessary with mainline http3
     export MODSEC=y
-    export HPACK=y
+    export HPACK=n # Not Compiling Correctly Latest Release
     export REDIS2=y
     export HTTPREDIS=n # Not Working Properly
     export SRCACHE=y
