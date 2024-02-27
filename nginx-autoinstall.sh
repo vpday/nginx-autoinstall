@@ -279,8 +279,11 @@ case $OPTION in
 
 	#Brotli
 	if [[ $BROTLI == 'y' ]]; then
-	    cd /usr/local/src/nginx/modules || exit 1
+	  cd /usr/local/src/nginx/modules || exit 1
 		git clone https://github.com/google/ngx_brotli
+		cd ngx_brotli || exit 1
+		git submodule update --init
+		cd ..
 		cd ngx_brotli/deps/brotli || exit
     mkdir out && cd out || exit
     cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_C_FLAGS="-Ofast -m64 -march=native -mtune=native -flto -funroll-loops -ffunction-sections -fdata-sections -Wl,--gc-sections" -DCMAKE_CXX_FLAGS="-Ofast -m64 -march=native -mtune=native -flto -funroll-loops -ffunction-sections -fdata-sections -Wl,--gc-sections" -DCMAKE_INSTALL_PREFIX=./installed ..
