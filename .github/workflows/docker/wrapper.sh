@@ -10,7 +10,7 @@ if [[ $INSTALL_TYPE == "FULL" ]]; then
     export FANCYINDEX=y
     export CACHEPURGE=y
     export SUBFILTER=y
-    #export LUA=y # Module faulty, should be tested with the most recent release of the module to ensure proper operation.
+    export LUA=y # Module faulty, should be tested with the most recent release of the module to ensure proper operation.
     export WEBDAV=y
     export VTS=y
     export RTMP=y
