@@ -152,6 +152,6 @@ Notice the
 testcookie_redirect_via_refresh off;
 ```
 
-Which turns off the html part.
+Which turns off the HTML part.
 
 See <https://github.com/kyprizel/testcookie-nginx-module#testcookie_redirect_via_refresh>

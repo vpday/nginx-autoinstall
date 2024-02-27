@@ -38,7 +38,7 @@ The script might work on ARM-based architectures, but it's only being regularly 
 - [lua-nginx-module](https://github.com/openresty/lua-nginx-module): extend NGINX with Lua. Using [luajit2](https://github.com/openresty/luajit2) (OpenResty's maintained branch of LuaJIT) and [ngx_devel_kit](https://github.com/simplresty/ngx_devel_kit) (Nginx Development Kit (NDK))
 - [nginx_substitutions_filter](https://github.com/yaoweibin/ngx_http_substitutions_filter_module): regular expression and fixed string substitutions for nginx
 - [RTMP module](https://github.com/arut/nginx-rtmp-module) (NGINX-based Media Streaming Server)
-- [nginx-ultimate-bad-bot-blocker](https://github.com/mitchellkrogza/nginx-ultimate-bad-bot-blocker): Bad Bot and User-Agent Blocker, Spam Referrer Blocker, Anti DDOS, Bad IP Blocker and Wordpress Theme Detector Blocker
+- [nginx-ultimate-bad-bot-blocker](https://github.com/mitchellkrogza/nginx-ultimate-bad-bot-blocker): Bad Bot and User-Agent Blocker, Spam Referrer Blocker, Anti DDOS, Bad IP Blocker and WordPress Theme Detector Blocker
 
 #### Cache Modules
 
