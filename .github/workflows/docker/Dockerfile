@@ -1,4 +1,4 @@
-ARG  BASE_IMAGE=ubuntu:22.04
+ARG  BASE_IMAGE=debian:latest
 FROM ${BASE_IMAGE}
 
 ARG NGINX_VER
