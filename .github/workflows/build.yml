@@ -29,13 +29,6 @@ jobs:
           - SYSTEM
           - OPENSSL
           - LIBRESSL
-        exclude:
-          # FULL assumes HTTP/3 which will use BoringSSL
-          # So we exclude these
-          - install_type: FULL
-            ssl: OPENSSL
-          - install_type: FULL
-            ssl: LIBRESSL
       fail-fast: false
     steps:
       - uses: actions/checkout@v4.2.2
