@@ -82,6 +82,7 @@ if [[ $HEADLESS == "y" ]]; then
 	NGXECHO=${NGXECHO:-n}
 	ZLIBNG=${ZLIBNG:-n}
 	PCRE2=${PCRE2:-n}
+	NGXWAF=${NGXWAF:-n}
 	HPACK=${HPACK:-n}
 	SSL=${SSL:-1}
 	RM_CONF=${RM_CONF:-y}
@@ -212,6 +213,9 @@ case $OPTION in
 		done
 		while [[ $PCRE2 != "y" && $PCRE2 != "n" ]]; do
 			read -rp "       pcre2 [y/n]: " -e -i n PCRE2
+		done
+		while [[ $NGXWAF != "y" && $NGXWAF != "n" ]]; do
+			read -rp "       ngx_waf [y/n]: " -e -i n NGXWAF
 		done
 
 		if [[ $GEOIP = 'y' ]]; then
@@ -516,6 +520,24 @@ case $OPTION in
 		tar xaf pcre2-${PCRE2_VER}.tar.gz
 	fi
 
+	# Download ngx_waf
+	if [[ $NGXWAF == 'y' ]]; then
+		cd /usr/local/src/nginx/modules || exit 1
+		git clone --depth 1 -b master --single-branch https://github.com/ADD-SP/ngx_waf.git
+		cd ngx_waf || exit 1
+		make -j "$(nproc)"
+		git clone --depth 1 https://github.com/libinjection/libinjection.git inc/libinjection
+		cd /usr/local/src/nginx/modules || exit 1
+		git clone --depth 1 https://github.com/jedisct1/libsodium.git
+		cd libsodium || exit 1
+		./configure --prefix=/usr/local/libsodium --with-pic
+		make -j$(nproc)
+		make install
+		cd /usr/local/src/nginx/modules || exit 1
+		git clone --depth 1 https://github.com/troydhanson/uthash.git
+		export LIB_UTHASH=/usr/local/src/nginx/modules/uthash
+	fi
+
 	# Download and extract of Nginx source code
 	cd /usr/local/src/nginx/ || exit 1
 	wget -qO- http://nginx.org/download/nginx-${NGINX_VER}.tar.gz | tar zxf -
@@ -716,6 +738,13 @@ case $OPTION in
 		)
 	fi
 
+	if [[ $NGXWAF == 'y' ]]; then
+		NGINX_MODULES=$(
+			echo "$NGINX_MODULES"
+			echo --add-module=/usr/local/src/nginx/modules/ngx_waf
+		)
+	fi
+
 	# Cloudflare's TLS Dynamic Record Resizing patch
 	if [[ $TLSDYN == 'y' ]]; then
 		wget https://raw.githubusercontent.com/nginx-modules/ngx_http_tls_dyn_size/refs/heads/master/nginx__dynamic_tls_records_1.27.5%2B.patch -O tcp-tls.patch
@@ -786,6 +815,11 @@ case $OPTION in
 	fi
 
 	./configure $NGINX_OPTIONS $NGINX_MODULES --with-cc-opt="$CFLAGS"
+
+	if [[ $NGXWAF == 'y' ]]; then
+		sed -i 's/^\(CFLAGS.*\)/\1 -fstack-protector-strong -Wno-sign-compare/' objs/Makefile
+	fi
+
 	make -j "$(nproc)"
 	make install
 

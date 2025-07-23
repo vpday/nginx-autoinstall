@@ -26,6 +26,7 @@ if [[ $INSTALL_TYPE == "FULL" ]]; then
     export TLSDYN=y
     export ZLIBNG=y
     export PCRE2=y
+    export NGXWAF=y
 fi
 
 bash -x ../../nginx-autoinstall.sh
