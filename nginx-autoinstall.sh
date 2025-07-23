@@ -83,7 +83,6 @@ if [[ $HEADLESS == "y" ]]; then
 	NGXECHO=${NGXECHO:-n}
 	ZLIBNG=${ZLIBNG:-n}
 	PCRE2=${PCRE2:-n}
-	LIBATOMIC_OPS=${LIBATOMIC_OPS:-n}
 	HPACK=${HPACK:-n}
 	SSL=${SSL:-1}
 	RM_CONF=${RM_CONF:-y}
@@ -214,9 +213,6 @@ case $OPTION in
 		done
 		while [[ $PCRE2 != "y" && $PCRE2 != "n" ]]; do
 			read -rp "       pcre2 [y/n]: " -e -i n PCRE2
-		done
-		while [[ $LIBATOMIC_OPS != "y" && $LIBATOMIC_OPS != "n" ]]; do
-			read -rp "       libatomic_ops [y/n]: " -e -i n LIBATOMIC_OPS
 		done
 
 		if [[ $GEOIP = 'y' ]]; then
@@ -515,12 +511,6 @@ case $OPTION in
 		tar xaf pcre2-${PCRE2_VER}.tar.gz
 	fi
 
-	# Download libatomic_ops
-	if [[ $LIBATOMIC_OPS == 'y' ]]; then
-		cd /usr/local/src/nginx/modules || exit 1
-		git clone --depth 1 https://github.com/ivmai/libatomic_ops
-	fi
-
 	# Download and extract of Nginx source code
 	cd /usr/local/src/nginx/ || exit 1
 	wget -qO- http://nginx.org/download/nginx-${NGINX_VER}.tar.gz | tar zxf -
@@ -718,13 +708,6 @@ case $OPTION in
 		NGINX_MODULES=$(
 			echo "$NGINX_MODULES"
 			echo --with-pcre=/usr/local/src/nginx/modules/pcre2-${PCRE2_VER}
-		)
-	fi
-
-	if [[ $LIBATOMIC_OPS == 'y' ]]; then
-		NGINX_MODULES=$(
-			echo "$NGINX_MODULES"
-			echo --with-libatomic=/usr/local/src/nginx/modules/libatomic_ops
 		)
 	fi
 

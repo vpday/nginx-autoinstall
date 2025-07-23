@@ -26,7 +26,6 @@ if [[ $INSTALL_TYPE == "FULL" ]]; then
     export TLSDYN=y
     export ZLIBNG=y
     export PCRE2=y
-    export LIBATOMIC_OPS=y
 fi
 
 bash -x ../../nginx-autoinstall.sh
