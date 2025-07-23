@@ -38,10 +38,7 @@ NGINX_OPTIONS=${NGINX_OPTIONS:-"
 	--http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp \
 	--user=nginx \
 	--group=nginx \
-	--with-cc-opt=-O2 \
-	--with-cc-opt=-Werror=discarded-qualifiers \
-	--with-cc-opt=-Wno-deprecated-declarations \
-	--with-cc-opt=-Wno-ignored-qualifiers"}
+	--with-cc-opt=-O2 -Werror=discarded-qualifiers -Wno-deprecated-declarations -Wno-ignored-qualifiers"}
 # Define modules
 NGINX_MODULES=${NGINX_MODULES:-"--with-threads \
 	--with-file-aio \
@@ -266,6 +263,7 @@ case $OPTION in
 	apt-get install -y build-essential ca-certificates wget curl libpcre3 libpcre3-dev autoconf unzip automake libtool tar git libssl-dev zlib1g-dev uuid-dev lsb-release libxml2-dev libxslt1-dev cmake
 
 	if [[ $MODSEC == 'y' ]]; then
+		# https://github.com/owasp-modsecurity/ModSecurity/issues/2750
 		wget http://ftp.de.debian.org/debian/pool/main/libp/libpcre++/libpcre++-dev_0.9.5-6.1+b11_amd64.deb
 		wget http://ftp.de.debian.org/debian/pool/main/libp/libpcre++/libpcre++0v5_0.9.5-6.1+b11_amd64.deb
 		apt install -y ./libpcre++0v5_0.9.5-6.1+b11_amd64.deb ./libpcre++-dev_0.9.5-6.1+b11_amd64.deb
