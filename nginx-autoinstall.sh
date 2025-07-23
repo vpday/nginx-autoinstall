@@ -24,7 +24,7 @@ HTTPREDIS_VER=${HTTPREDIS_VER:-0.3.9}
 NGXECHO_VER=${NGXECHO_VER:-0.63}
 ZLIBNG_VER=${ZLIBNG_VER:-2.2.4}
 PCRE2_VER=${PCRE2_VER:-10.45}
-CFLAGS=${CFLAGS:-"-O2 -Werror=discarded-qualifiers -Wno-deprecated-declarations -Wno-ignored-qualifiers"}
+CFLAGS=${CFLAGS:-"-O2 -Wno-deprecated-declarations -Wno-ignored-qualifiers"}
 # Define options
 NGINX_OPTIONS=${NGINX_OPTIONS:-"
 	--prefix=/etc/nginx \
