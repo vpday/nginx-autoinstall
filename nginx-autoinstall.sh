@@ -266,6 +266,11 @@ case $OPTION in
 	apt-get install -y build-essential ca-certificates wget curl libpcre3 libpcre3-dev autoconf unzip automake libtool tar git libssl-dev zlib1g-dev uuid-dev lsb-release libxml2-dev libxslt1-dev cmake
 
 	if [[ $MODSEC == 'y' ]]; then
+		wget http://ftp.de.debian.org/debian/pool/main/libp/libpcre++/libpcre++-dev_0.9.5-6.1+b11_amd64.deb
+		wget http://ftp.de.debian.org/debian/pool/main/libp/libpcre++/libpcre++0v5_0.9.5-6.1+b11_amd64.deb
+		apt install -y ./libpcre++0v5_0.9.5-6.1+b11_amd64.deb ./libpcre++-dev_0.9.5-6.1+b11_amd64.deb
+		rm libpcre*.deb
+
 		apt-get install -y apt-utils libcurl4-openssl-dev libgeoip-dev liblmdb-dev libpcre++-dev libyajl-dev pkgconf libpcre2-dev pcre2-utils libmaxminddb-dev
 	fi
 
