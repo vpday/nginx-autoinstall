@@ -22,6 +22,8 @@ LUA_RESTYLRUCACHE_VER=${LUA_RESTYLRUCACHE_VER:-0.14}
 NGINX_DEV_KIT=${NGINX_DEV_KIT:-0.3.3}
 HTTPREDIS_VER=${HTTPREDIS_VER:-0.3.9}
 NGXECHO_VER=${NGXECHO_VER:-0.63}
+ZLIBNG_VER=${ZLIBNG_VER:-2.2.4}
+PCRE2_VER=${PCRE2_VER:-10.45}
 # Define options
 NGINX_OPTIONS=${NGINX_OPTIONS:-"
 	--prefix=/etc/nginx \
@@ -41,14 +43,17 @@ NGINX_OPTIONS=${NGINX_OPTIONS:-"
 # Define modules
 NGINX_MODULES=${NGINX_MODULES:-"--with-threads \
 	--with-file-aio \
+	--with-poll_module \
+	--with-select_module \
 	--with-http_ssl_module \
 	--with-http_v2_module \
-	--with-http_mp4_module \
 	--with-http_auth_request_module \
 	--with-http_slice_module \
 	--with-http_stub_status_module \
 	--with-http_realip_module \
-	--with-http_sub_module"}
+	--with-http_sub_module \
+	--with-http_degradation_module \
+	--with-http_secure_link_module"}
 
 # Define installation parameters for headless install (fallback if unspecifed)
 if [[ $HEADLESS == "y" ]]; then
@@ -76,6 +81,9 @@ if [[ $HEADLESS == "y" ]]; then
 	SRCACHE=${SRCACHE:-n}
 	SETMISC=${SETMISC:-n}
 	NGXECHO=${NGXECHO:-n}
+	ZLIBNG=${ZLIBNG:-n}
+	PCRE2=${PCRE2:-n}
+	LIBATOMIC_OPS=${LIBATOMIC_OPS:-n}
 	HPACK=${HPACK:-n}
 	SSL=${SSL:-1}
 	RM_CONF=${RM_CONF:-y}
@@ -200,6 +208,15 @@ case $OPTION in
 		done
 		while [[ $NGXECHO != "y" && $NGXECHO != "n" ]]; do
 			read -rp "       echo-nginx-module [y/n]: " -e -i n NGXECHO
+		done
+		while [[ $ZLIBNG != "y" && $ZLIBNG != "n" ]]; do
+			read -rp "       zlib-ng [y/n]: " -e -i n ZLIBNG
+		done
+		while [[ $PCRE2 != "y" && $PCRE2 != "n" ]]; do
+			read -rp "       pcre2 [y/n]: " -e -i n PCRE2
+		done
+		while [[ $LIBATOMIC_OPS != "y" && $LIBATOMIC_OPS != "n" ]]; do
+			read -rp "       libatomic_ops [y/n]: " -e -i n LIBATOMIC_OPS
 		done
 
 		if [[ $GEOIP = 'y' ]]; then
@@ -480,6 +497,30 @@ case $OPTION in
 		tar xaf v${NGXECHO_VER}.tar.gz
 	fi
 
+	# Download zlib-ng
+	if [[ $ZLIBNG == 'y' ]]; then
+		cd /usr/local/src/nginx/modules || exit 1
+		wget https://github.com/zlib-ng/zlib-ng/archive/refs/tags/${ZLIBNG_VER}.tar.gz
+		tar xaf ${ZLIBNG_VER}.tar.gz
+		cd zlib-ng-${ZLIBNG_VER} || exit 1
+		./configure
+		make -j "$(nproc)"
+		make test
+	fi
+
+	# Download pcre2
+	if [[ $PCRE2 == 'y' ]]; then
+		cd /usr/local/src/nginx/modules || exit 1
+		wget https://github.com/PCRE2Project/pcre2/archive/refs/tags/pcre2-${PCRE2_VER}.tar.gz
+		tar xaf pcre2-${PCRE2_VER}.tar.gz
+	fi
+
+	# Download libatomic_ops
+	if [[ $LIBATOMIC_OPS == 'y' ]]; then
+		cd /usr/local/src/nginx/modules || exit 1
+		git clone --depth 1 https://github.com/ivmai/libatomic_ops
+	fi
+
 	# Download and extract of Nginx source code
 	cd /usr/local/src/nginx/ || exit 1
 	wget -qO- http://nginx.org/download/nginx-${NGINX_VER}.tar.gz | tar zxf -
@@ -666,10 +707,37 @@ case $OPTION in
 		)
 	fi
 
+	if [[ $ZLIBNG == 'y' ]]; then
+		NGINX_MODULES=$(
+			echo "$NGINX_MODULES"
+			echo --with-zlib=/usr/local/src/nginx/modules/zlib-ng-${ZLIBNG_VER}
+		)
+	fi
+
+	if [[ $PCRE2 == 'y' ]]; then
+		NGINX_MODULES=$(
+			echo "$NGINX_MODULES"
+			echo --with-pcre=/usr/local/src/nginx/modules/pcre2-${PCRE2_VER}
+		)
+	fi
+
+	if [[ $LIBATOMIC_OPS == 'y' ]]; then
+		NGINX_MODULES=$(
+			echo "$NGINX_MODULES"
+			echo --with-libatomic=/usr/local/src/nginx/modules/libatomic_ops
+		)
+	fi
+
 	# Cloudflare's TLS Dynamic Record Resizing patch
 	if [[ $TLSDYN == 'y' ]]; then
 		wget https://raw.githubusercontent.com/nginx-modules/ngx_http_tls_dyn_size/master/nginx__dynamic_tls_records_1.17.7%2B.patch -O tcp-tls.patch
 		patch -p1 <tcp-tls.patch
+	fi
+
+	# Use the OpenSSL library instead of the Nginx original function.
+	if [[ $OPENSSL == 'y' ]]; then
+		wget https://raw.githubusercontent.com/kn007/patch/refs/heads/master/use_openssl_md5_sha1.patch -O use_openssl_md5_sha1.patch
+		patch -p1 <use_openssl_md5_sha1.patch
 	fi
 
 	# HTTP3
