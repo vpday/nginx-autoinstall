@@ -286,6 +286,10 @@ case $OPTION in
 		apt-get install -y geoipupdate
 	fi
 
+	if [[ $NGXWAF == 'y' ]]; then
+		apt-get install -y flex bison
+	fi
+
 	# PageSpeed
 	if [[ $PAGESPEED == 'y' ]]; then
 		cd /usr/local/src/nginx/modules || exit 1
