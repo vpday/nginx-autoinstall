@@ -24,6 +24,7 @@ HTTPREDIS_VER=${HTTPREDIS_VER:-0.3.9}
 NGXECHO_VER=${NGXECHO_VER:-0.63}
 ZLIBNG_VER=${ZLIBNG_VER:-2.2.4}
 PCRE2_VER=${PCRE2_VER:-10.45}
+CFLAGS=${CFLAGS:-"-O2 -Werror=discarded-qualifiers -Wno-deprecated-declarations -Wno-ignored-qualifiers"}
 # Define options
 NGINX_OPTIONS=${NGINX_OPTIONS:-"
 	--prefix=/etc/nginx \
@@ -37,8 +38,7 @@ NGINX_OPTIONS=${NGINX_OPTIONS:-"
 	--http-proxy-temp-path=/var/cache/nginx/proxy_temp \
 	--http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp \
 	--user=nginx \
-	--group=nginx \
-	--with-cc-opt=\"-O2 -Werror=discarded-qualifiers -Wno-deprecated-declarations -Wno-ignored-qualifiers\""}
+	--group=nginx"}
 # Define modules
 NGINX_MODULES=${NGINX_MODULES:-"--with-threads \
 	--with-file-aio \
@@ -785,7 +785,7 @@ case $OPTION in
 		export LUAJIT_INC=/usr/local/include/luajit-2.1/
 	fi
 
-	./configure $NGINX_OPTIONS $NGINX_MODULES
+	./configure $NGINX_OPTIONS $NGINX_MODULES --with-cc-opt="$CFLAGS"
 	make -j "$(nproc)"
 	make install
 
