@@ -723,6 +723,12 @@ case $OPTION in
 		patch -p1 <use_openssl_md5_sha1.patch
 	fi
 
+	# use zlib-ng instead of zlib
+	if [[ $ZLIBNG == 'y' ]]; then
+		wget https://raw.githubusercontent.com/vpday/nginx-autoinstall/refs/heads/master/patches/nginx_zlib-ng.patch -O nginx_zlib-ng.patch
+		patch -p1 <nginx_zlib-ng.patch
+	fi
+
 	# HTTP3
 	if [[ $HTTP3 == 'y' ]]; then
 		cd /usr/local/src/nginx/modules || exit 1
