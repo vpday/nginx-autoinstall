@@ -38,7 +38,7 @@ NGINX_OPTIONS=${NGINX_OPTIONS:-"
 	--http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp \
 	--user=nginx \
 	--group=nginx \
-	--with-cc-opt=-O2 -Werror=discarded-qualifiers -Wno-deprecated-declarations -Wno-ignored-qualifiers"}
+	--with-cc-opt=\"-O2 -Werror=discarded-qualifiers -Wno-deprecated-declarations -Wno-ignored-qualifiers\""}
 # Define modules
 NGINX_MODULES=${NGINX_MODULES:-"--with-threads \
 	--with-file-aio \
