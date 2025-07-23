@@ -23,7 +23,7 @@ NGINX_DEV_KIT=${NGINX_DEV_KIT:-0.3.3}
 HTTPREDIS_VER=${HTTPREDIS_VER:-0.3.9}
 NGXECHO_VER=${NGXECHO_VER:-0.63}
 ZLIBNG_VER=${ZLIBNG_VER:-2.2.4}
-PCRE2_VER=${PCRE2_VER:-10.45}
+PCRE2_VER=${PCRE2_VER:-pcre2-10.45}
 # Define options
 NGINX_OPTIONS=${NGINX_OPTIONS:-"
 	--prefix=/etc/nginx \
@@ -511,7 +511,7 @@ case $OPTION in
 	# Download pcre2
 	if [[ $PCRE2 == 'y' ]]; then
 		cd /usr/local/src/nginx/modules || exit 1
-		wget https://github.com/PCRE2Project/pcre2/archive/refs/tags/pcre2-${PCRE2_VER}.tar.gz
+		wget https://github.com/PCRE2Project/pcre2/releases/download/pcre2-${PCRE2_VER}/pcre2-${PCRE2_VER}.tar.gz
 		tar xaf pcre2-${PCRE2_VER}.tar.gz
 	fi
 
