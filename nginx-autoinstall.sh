@@ -268,7 +268,7 @@ case $OPTION in
 	apt-get install -y build-essential ca-certificates wget curl libpcre3 libpcre3-dev autoconf unzip automake libtool tar git libssl-dev zlib1g-dev uuid-dev lsb-release libxml2-dev libxslt1-dev cmake
 
 	if [[ $MODSEC == 'y' ]]; then
-		apt-get install -y apt-utils libcurl4-openssl-dev libgeoip-dev liblmdb-dev libpcre++-dev libyajl-dev pkgconf libpcre2 libpcre2-dev libmaxminddb-dev
+		apt-get install -y apt-utils libcurl4-openssl-dev libgeoip-dev liblmdb-dev libpcre++-dev libyajl-dev pkgconf libpcre2-dev pcre2-utils libmaxminddb-dev
 	fi
 
 	if [[ $GEOIP == 'y' ]]; then
