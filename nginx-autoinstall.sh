@@ -38,6 +38,8 @@ NGINX_OPTIONS=${NGINX_OPTIONS:-"
 	--http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp \
 	--user=nginx \
 	--group=nginx \
+	--with-cc-opt=-O2 \
+	--with-cc-opt=-Werror=discarded-qualifiers \
 	--with-cc-opt=-Wno-deprecated-declarations \
 	--with-cc-opt=-Wno-ignored-qualifiers"}
 # Define modules
