@@ -530,7 +530,14 @@ case $OPTION in
 		git clone --depth 1 -b master --single-branch https://github.com/ADD-SP/ngx_waf.git
 		cd ngx_waf || exit 1
 		make -j "$(nproc)"
-		git clone --depth 1 https://github.com/libinjection/libinjection.git inc/libinjection
+		cd /usr/local/src/nginx/modules || exit 1
+		git clone --depth 1 https://github.com/libinjection/libinjection.git
+		cd libinjection || exit 1
+		./autogen.sh
+		./configure --prefix=/usr/local/src/nginx/modules/libinjection
+		make -j "$(nproc)"
+		make install
+		export LIB_INJECTION=/usr/local/src/nginx/modules/libinjection
 		cd /usr/local/src/nginx/modules || exit 1
 		git clone --depth 1 https://github.com/jedisct1/libsodium.git
 		cd libsodium || exit 1
