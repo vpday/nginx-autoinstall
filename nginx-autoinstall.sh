@@ -543,8 +543,9 @@ case $OPTION in
 		cd libsodium || exit 1
 		./configure --prefix=/usr/local/libsodium --with-pic
 		make -j$(nproc)
+		make check -j $(nproc)
 		make install
-		PKG_CONFIG_PATH=/usr/local/libsodium/lib/pkgconfig:$PKG_CONFIG_PATH
+		export LIB_SODIUM=/usr/local/libsodium
 		cd /usr/local/src/nginx/modules || exit 1
 		git clone --depth 1 https://github.com/troydhanson/uthash.git
 		export LIB_UTHASH=/usr/local/src/nginx/modules/uthash
