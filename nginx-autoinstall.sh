@@ -287,7 +287,7 @@ case $OPTION in
 	fi
 
 	if [[ $NGXWAF == 'y' ]]; then
-		apt-get install -y flex bison
+		apt-get install -y flex bison python3
 	fi
 
 	# PageSpeed
@@ -539,7 +539,7 @@ case $OPTION in
 		make install
 		export LIB_INJECTION=/usr/local/src/nginx/modules/libinjection
 		cd /usr/local/src/nginx/modules || exit 1
-		git clone --depth 1 https://github.com/jedisct1/libsodium.git
+		git clone --depth 1 --branch stable https://github.com/jedisct1/libsodium.git
 		cd libsodium || exit 1
 		./configure --prefix=/usr/local/libsodium --with-pic
 		make -j$(nproc)
