@@ -534,14 +534,15 @@ case $OPTION in
 		git clone --depth 1 https://github.com/libinjection/libinjection.git
 		cd libinjection || exit 1
 		./autogen.sh
-		./configure --prefix=/usr/local/src/nginx/modules/libinjection
+		./configure --prefix=/usr/local/libinjection
 		make -j "$(nproc)"
 		make install
-		export LIB_INJECTION=/usr/local/src/nginx/modules/libinjection
+		export LIB_INJECTION=/usr/local/libinjection
 		cd /usr/local/src/nginx/modules || exit 1
 		git clone --depth 1 --branch stable https://github.com/jedisct1/libsodium.git
 		cd libsodium || exit 1
 		./configure --prefix=/usr/local/libsodium --with-pic
+		PKG_CONFIG_PATH=/usr/local/libsodium/lib/pkgconfig:$PKG_CONFIG_PATH
 		make -j$(nproc)
 		make install
 		cd /usr/local/src/nginx/modules || exit 1
